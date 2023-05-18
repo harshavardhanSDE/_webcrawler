@@ -1,0 +1,27 @@
+{
+	"name": "webcrawler",
+	"version": "1.0.0",
+	"description": "webcrawler using node ",
+	"main": "main.js",
+	"scripts": {
+		"start": "node main.js",
+		"test": "jest"
+	},
+	"repository": {
+		"type": "git",
+		"url": "git+https://github.com/harshavardhanSDE/_webcrawler.git"
+	},
+	"keywords": [
+		"webcrawler",
+		"node"
+	],
+	"author": "harshavardhan",
+	"license": "ISC",
+	"bugs": {
+		"url": "https://github.com/harshavardhanSDE/_webcrawler/issues"
+	},
+	"homepage": "https://github.com/harshavardhanSDE/_webcrawler#readme",
+	"devDependencies": {
+		"jest": "^29.5.0"
+	}
+}
