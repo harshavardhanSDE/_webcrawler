@@ -1,4 +1,21 @@
-// prettier-ignore
+// jsdom for dom manipulation
+const { JSDOM } = require('jsdom'); 
+
+function getURLsFromDom(htmlBody, baseURL) {
+    const URLS = []; 
+    const htmlDoc = new JSDOM(htmlBody); 
+    const linkElements = htmlDoc.window.document.querySelectorAll('a'); 
+    for (const link of linkElements) {
+        if (link.href.slice(0,1) === "/") {
+            // the page is relative.
+            URLS.push(`${baseURL}${link.href}`);
+        }
+        else {
+            URLS.push(link.href)
+        } 
+    }
+    return URLS; 
+}
 /*
 function: normalizeURL()
     - Returns the url string.
@@ -13,9 +30,10 @@ function normalizeURL(urlString) {
     return processedURL; 
 
 }
-console.log(normalizeURL("https://GITHUB.com/info/"))
+// console.log(getURLsFromDom(html, "https:/github.com")); 
 
 /* exporting the file as module to be used in other files. */
 module.exports = {
-	normalizeURL
+    normalizeURL, 
+    getURLsFromDom
 }

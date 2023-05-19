@@ -5,11 +5,9 @@ crawl.test.js:
 */
 
 // importing the "normalizeURL" function from crawl.js
-const { normalizeURL } = require("./crawl.js");
+const { normalizeURL, getURLsFromDom } = require("./crawl.js");
 const { test, expect } = require("@jest/globals");
-url = "https://github.com/info";
-url_ts = "https://github.com/info/";
-url_big = "https://GITHUB.com/info";
+url = "https://GitHub.com/info/";
 url_expected = "github.com/info";
 
 test("normalizeURL", () => {
@@ -19,16 +17,57 @@ test("normalizeURL", () => {
 	expect(processed).toEqual(outData);
 });
 
-test("normalizeURL trailing slash checking.", () => {
-	const inData = url_ts;
+test("normalizeURL: trailing slash", () => {
+	const inData = url;
 	const processed = normalizeURL(inData);
 	const outData = url_expected;
 	expect(processed).toEqual(outData);
 });
 
-test("normalizeURL for capitals.", () => {
-	const inData = url_big;
+test("normalizeURL: capitals.", () => {
+	const inData = url;
 	const processed = normalizeURL(inData);
 	const outData = url_expected;
 	expect(processed).toEqual(outData);
+});
+
+test("normalizeURL: stripping http", () => {
+	const inData = url;
+	const processed = normalizeURL(inData);
+	const outData = url_expected;
+	expect(processed).toEqual(outData);
+});
+
+// testing for html dom extraction
+
+test("getURLsFromDom: absolute path", () => {
+	const html = `
+	<html>
+		<body>
+			<a href="https://github.com/user/contributions/">
+			Contributions
+			</a>
+		</body>
+	</html>
+	`;
+	const baseURL = "https://github.com";
+	const urlFromDom = getURLsFromDom(html, baseURL);
+	const absoluteUrl = ["https://github.com/user/contributions/"];
+	expect(urlFromDom).toEqual(absoluteUrl);
+});
+
+test("getURLsFromDom: relative path", () => {
+	const html = `
+	<html>
+		<body>
+			<a href="/user/contributions/">
+			Contributions
+			</a>
+		</body>
+	</html>
+	`;
+	const baseURL = "https://github.com";
+	const urlFromDom = getURLsFromDom(html, baseURL);
+	const absoluteUrl = ["https://github.com/user/contributions/"];
+	expect(urlFromDom).toEqual(absoluteUrl);
 });

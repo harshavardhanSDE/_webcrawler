@@ -23,5 +23,8 @@
 	"homepage": "https://github.com/harshavardhanSDE/_webcrawler#readme",
 	"devDependencies": {
 		"jest": "^29.5.0"
+	},
+	"dependencies": {
+		"jsdom": "^22.0.0"
 	}
 }
