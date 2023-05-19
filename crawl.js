@@ -8,10 +8,22 @@ function getURLsFromDom(htmlBody, baseURL) {
     for (const link of linkElements) {
         if (link.href.slice(0,1) === "/") {
             // the page is relative.
-            URLS.push(`${baseURL}${link.href}`);
+            try {
+                const testUrl = new URL(`${baseURL}${link.href}`);
+                URLS.push(testUrl.href);
+            }
+            catch (err) {
+                console.log(`broken URL: ${err.message}`); 
+            }
         }
         else {
-            URLS.push(link.href)
+            try {
+                const testUrl = new URL(`${link.href}`); 
+                URLS.push(testUrl.href); 
+            }
+            catch (err) { 
+                console.log(`broken URL: ${err.message}`); 
+            }
         } 
     }
     return URLS; 
@@ -30,7 +42,18 @@ function normalizeURL(urlString) {
     return processedURL; 
 
 }
-// console.log(getURLsFromDom(html, "https:/github.com")); 
+
+	const html = `
+	<html>
+		<body>
+			<a href="https://github.com/user/contributions/">
+			Contributions
+			</a>
+		</body>
+	</html>
+	`;
+
+console.log(getURLsFromDom(html, "https://github.com")); 
 
 /* exporting the file as module to be used in other files. */
 module.exports = {
