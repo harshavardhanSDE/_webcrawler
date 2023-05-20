@@ -50,3 +50,11 @@
 # "JS":
 
 -   multiline string: ` `.
+
+# main.js
+
+-   process.argv < 3: This is a convention in programmming when a program is executed.
+
+-   This first argument is the "interepreter",
+-   Secondly, the name of the file.
+-   Third input is the argument given to the program.

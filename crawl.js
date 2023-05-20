@@ -1,6 +1,21 @@
 // jsdom for dom manipulation
 const { JSDOM } = require('jsdom'); 
 
+async function crawl(toCrawlUrl) {
+    console.log(`crawling the site ${toCrawlUrl}`); 
+    try {
+        const response = await fetch(toCrawlUrl); 
+        if (response.status > 399) {
+            console.log(response.status); 
+            return 
+        }
+        console.log(await response.text())
+    }
+    catch (err) {
+        console.log(err.message); 
+    }
+}
+
 function getURLsFromDom(htmlBody, baseURL) {
     const URLS = []; 
     const htmlDoc = new JSDOM(htmlBody); 
@@ -53,10 +68,11 @@ function normalizeURL(urlString) {
 	</html>
 	`;
 
-console.log(getURLsFromDom(html, "https://github.com")); 
+//console.log(getURLsFromDom(html, "https://github.com")); 
 
 /* exporting the file as module to be used in other files. */
 module.exports = {
     normalizeURL, 
-    getURLsFromDom
+    getURLsFromDom, 
+    crawl
 }
